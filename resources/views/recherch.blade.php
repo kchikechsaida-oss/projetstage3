@@ -276,23 +276,7 @@
 
 <script>
 (function () {
-  // ============================================================
-  // DONNÉES — Remplace par tes vrais produits ou via API Laravel
-  // ============================================================
-//   const products = @json($products ?? [
-//     ["name" => "Rose de Damas",     "category" => "Eau de Parfum",   "price" => "320 MAD"],
-//     ["name" => "Oud Marocain",      "category" => "Huile Parfumée",  "price" => "480 MAD"],
-//     ["name" => "Jasmin Andalou",    "category" => "Eau de Toilette", "price" => "260 MAD"],
-//     ["name" => "Ambre Oriental",    "category" => "Eau de Parfum",   "price" => "395 MAD"],
-//     ["name" => "Musc Blanc",        "category" => "Huile Parfumée",  "price" => "310 MAD"],
-//     ["name" => "Fleur d'Oranger",   "category" => "Eau de Cologne",  "price" => "220 MAD"],
-//     ["name" => "Bois de Cèdre",     "category" => "Eau de Parfum",   "price" => "345 MAD"],
-//     ["name" => "Safran Royal",      "category" => "Huile Parfumée",  "price" => "520 MAD"],
-//     ["name" => "Néroli Impérial",   "category" => "Eau de Toilette", "price" => "285 MAD"],
-//     ["name" => "Vétiver Noir",      "category" => "Eau de Parfum",   "price" => "365 MAD"],
-//   ]);
-
-  // ============================================================
+   
   const input    = document.getElementById('andalocy-input');
   const dropdown = document.getElementById('andalocy-dropdown');
   const list     = document.getElementById('andalocy-results-list');

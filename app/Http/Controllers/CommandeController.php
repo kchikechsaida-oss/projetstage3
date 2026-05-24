@@ -6,102 +6,137 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Barryvdh\DomPDF\Facade\Pdf;
+
 class CommandeController extends Controller
 {
     public function index()
     {
-        if (!session('client')) {
+        $panier = Session::get('panier', []);
+
+        if(empty($panier)){
+            return redirect('/panier');
+        }
+
+        if(!session('client_id')){
             return redirect('/login');
         }
 
-        $panier = Session::get('panier', []);
-        $client = session('client');
+        $client = DB::table('clients')
+                    ->where('idClient', session('client_id'))
+                    ->first();
 
         $total = 0;
-        foreach($panier as $item) {
+        foreach($panier as $item){
             $total += $item['prix'] * $item['quantite'];
         }
 
         return view('livraison', compact('panier', 'client', 'total'));
     }
 
-    // public function store(Request $request)
-    // {
-    //     $client = session('client');
-
-    //     DB::table('commandes')->insert([
-    //         'idClient'   => $client->idClient,
-    //         'dateCommande' => now()->toDateString(),
-    //         'adresse'    => $request->adresse,
-    //         'telephone'  => $request->telephone,
-    //         'total'      => $request->total,
-    //         'statut'     => 'en attente',
-    //         'created_at' => now(),
-    //         'updated_at' => now(),
-    //     ]);
-
-    //     Session::forget('panier');
-
-    //     return redirect('/CompteClient')->with('success', 'Commande passée avec succès!');
-    // }
-
     public function store(Request $request)
+    {
+        if(!session('client_id')){
+            return redirect('/login');
+        }
+
+        $request->validate([
+            'adresse'    => 'required',
+            'telephone'  => 'required',
+            'ville'      => 'required',
+            'code_postal'=> 'required'
+        ]);
+
+        $clientId = session('client_id');
+
+        $panier = Session::get('panier', []);
+
+        if(empty($panier)){
+            return redirect('/catalogue')->with('error', 'Panier vide');
+        }
+
+        $total = 0;
+        foreach($panier as $item){
+            $total += $item['prix'] * $item['quantite'];
+        }
+
+        $commandeId = DB::table('commandes')->insertGetId([
+            'idClient'    => $clientId,
+            'dateCommande'=> now(),
+            'adresse'     => $request->adresse,
+            'telephone'   => $request->telephone,
+            'ville'       => $request->ville,
+            'code_postal' => $request->code_postal,
+            'total'       => $total,
+            'statut'      => 'en attente',
+            'paiement'    => 'cash',
+            'created_at'  => now(),
+            'updated_at'  => now()
+        ]);
+
+        foreach($panier as $item){
+            DB::table('commande_produits')->insert([
+                'idCommande' => $commandeId,
+                'idProduit'  => $item['idProduit'],
+                'quantite'   => $item['quantite'],
+                'prix'       => $item['prix'],
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        }
+
+        $pointsGagnes = floor($total / 10);
+
+        DB::table('achats')->insert([
+            'idClient'        => $clientId,
+            'montant'         => $total,
+            'points_gagnes'   => $pointsGagnes,
+            'points_utilises' => 0,
+            'created_at'      => now(),
+            'updated_at'      => now()
+        ]);
+
+        Session::forget('panier');
+
+        return redirect('/merci?commande=' . $commandeId . '&points=' . $pointsGagnes);
+    }
+
+    public function facture($id)
 {
-    $client = session('client');
-    $panier = Session::get('panier', []);
-    $total  = $request->total;
+    if(!session('client_id')){
+        return redirect('/login');
+    }
 
-    // سجل الcommande
-    $commandeId = DB::table('commandes')->insertGetId([
-        'idClient'     => $client->idClient,
-        'dateCommande' => now()->toDateString(),
-        'adresse'      => $request->adresse,
-        'telephone'    => $request->telephone,
-        'total'        => $total,
-        'ville'        => $request->ville,
-        'code_postal'  => $request->code_postal,
-        'statut'       => 'en attente',
-        'paiement'     => 'cash',
-        'created_at'   => now(),
-        'updated_at'   => now(),
-    ]);
+    $commande = DB::table('commandes')->where('idCommande', $id)->first();
 
-    // حساب points — كل 10 DH = 1 point
-    $pointsGagnes = floor($total / 10);
+    $produits = DB::table('commande_produits')
+                ->join('produits', 'commande_produits.idProduit', '=', 'produits.idProduit')
+                ->where('commande_produits.idCommande', $id)
+                ->select('produits.nomP', 'commande_produits.quantite', 'commande_produits.prix')
+                ->get();
 
-    // update points ديال client
-    DB::table('clients')
-       ->where('idClient', $client->idClient)
-       ->increment('points', $pointsGagnes);
+    $client = DB::table('clients')
+                ->where('idClient', session('client_id'))
+                ->first();
 
-    // سجل فـ achats
-    DB::table('achats')->insert([
-        'idClient'        => $client->idClient,
-        'montant'         => $total,
-        'points_gagnes'   => $pointsGagnes,
-        'points_utilises' => 0,
-        'created_at'      => now(),
-        'updated_at'      => now(),
-    ]);
-
-    // فرغ الpanier
-    Session::forget('panier');
-
-    return redirect('/merci?commande=' . $commandeId . '&points=' . $pointsGagnes);
-}
-
-public function facture($id)
-{
-    $commande = DB::table('commandes')
-                  ->join('clients', 'commandes.idClient', '=', 'clients.idClient')
-                  ->where('commandes.idCommande', $id)
-                  ->select('commandes.*', 'clients.nom', 'clients.prenom', 
-                           'clients.email', 'clients.telephone')
-                  ->first();
+    $user = $client; // ← هادا هو الحل
 
     $pointsGagnes = floor($commande->total / 10);
 
-    $pdf = Pdf::loadView('facture', compact('commande', 'pointsGagnes'));
+    $pdf = Pdf::loadView('facture', compact('commande', 'produits', 'pointsGagnes', 'client', 'user'));
+
     return $pdf->download('facture-' . $id . '.pdf');
 }
+    public function historique()
+    {
+        if(!session('client_id')){
+            return redirect('/login');
+        }
+
+        $commandes = DB::table('commandes')
+                    ->where('idClient', session('client_id'))
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+
+        return view('historique', compact('commandes'));
+    }
 }

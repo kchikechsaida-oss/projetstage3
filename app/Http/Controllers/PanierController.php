@@ -1,50 +1,5 @@
 <?php
 
-// namespace App\Http\Controllers;
-
-// use App\Http\Controllers\Controller;
-// use Illuminate\Http\Request;
-// use App\Models\Panier;          
-// use Illuminate\Support\Facades\DB;
-// use Illuminate\Support\Facades\Session;
-// class PanierController extends Controller
-// {
-   
-
-//    public function index()
-//     {
-//         $panier = Panier::all();
-//         return view('panier', compact('panier'));
-//     }
-
-// public function ajouter($id)
-// {
-//     $produit = DB::table('produits')
-//         ->where('idProduit', $id)
-//         ->first();
-
-//     $panier = Session::get('panier', []);
-
-//     if(isset($panier[$id])){
-//         $panier[$id]['quantite']++;
-//     } else {
-//         $panier[$id] = [
-//             "nom" => $produit->nomP,
-//             "prix" => $produit->prix,
-//             "image" => $produit->image,
-//             "quantite" => 1
-//         ];
-//     }
-
-//     Session::put('panier', $panier);
-
-//     return back()->with('success', 'Produit ajouté');
-// }
-// }
-
-
-
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -53,75 +8,100 @@ use Illuminate\Support\Facades\Session;
 
 class PanierController extends Controller
 {
-    // عرض الpanier
     public function index()
     {
         $panier = Session::get('panier', []);
-        return view('panier', compact('panier'));
-    }
 
-    // إضافة للpanier
-   //  public function ajouter($id)
-   //  {
-   //      // واش connecté?
-   //      if (!session('client')) {
-   //          return redirect('/login');
-   //      }
+        $total = array_sum(array_map(function($item) {
+            return $item['prix'] * $item['quantite'];
+        }, $panier));
 
-      //   $produit = DB::table('produits')
-      //       ->where('idProduit', $id)
-      //       ->first();
-
-      //   $panier = Session::get('panier', []);
-
-      //   if(isset($panier[$id])){
-      //       $panier[$id]['quantite']++;
-      //   } else {
-      //       $panier[$id] = [
-      //           "idProduit" => $id,
-      //           "nom"       => $produit->nomP,
-      //           "prix"      => $produit->prix,
-      //           "image"     => $produit->image,
-      //           "quantite"  => 1
-      //       ];
-      //   }
-
-   //      Session::put('panier', $panier);
-   //      return redirect('/panier');
-   //  }
-
-    // حذف من panier
-    public function supprimer($id)
-    {
-        $panier = Session::get('panier', []);
-        unset($panier[$id]);
-        Session::put('panier', $panier);
-        return redirect('/panier');
+        return view('panier', compact('panier', 'total'));
     }
 
     public function ajouter($id)
-{
-    if (!session('client')) {
-        session(['redirect_after_login' => '/livraison']);
-        return redirect('/login');
+    {
+        if(!session('client_id')){
+            return redirect()->route('login')
+                   ->with('error', 'Connectez-vous pour ajouter au panier !');
+        }
+
+        $produit = DB::table('produits')->where('idProduit', $id)->first();
+
+        if(!$produit){
+            return redirect('/catalogue')
+                   ->with('error', 'Produit introuvable !');
+        }
+
+        $panier = Session::get('panier', []);
+
+        if(isset($panier[$id])){
+            $panier[$id]['quantite']++;
+        } else {
+            $panier[$id] = [
+                'idProduit' => $id,
+                'nom'       => $produit->nomP,
+                'prix'      => $produit->prix,
+                'image'     => $produit->image,
+                'quantite'  => 1
+            ];
+        }
+
+        Session::put('panier', $panier);
+
+        return redirect()->route('livraison')->with('success', 'Produit ajouté !');
     }
 
-    $produit = DB::table('produits')->where('idProduit', $id)->first();
-    $panier = Session::get('panier', []);
+    public function supprimer($id)
+    {
+        $panier = Session::get('panier', []);
 
-    if(isset($panier[$id])){
-        $panier[$id]['quantite']++;
-    } else {
-        $panier[$id] = [
-            "idProduit" => $id,
-            "nom"       => $produit->nomP,
-            "prix"      => $produit->prix,
-            "image"     => $produit->image,
-            "quantite"  => 1
-        ];
+        if(isset($panier[$id])){
+            unset($panier[$id]);
+            Session::put('panier', $panier);
+        }
+
+        return redirect('/panier')->with('success', 'Produit supprimé !');
     }
 
-    Session::put('panier', $panier);
-    return redirect('/panier');
-}
+    public function augmenter($id)
+    {
+        $panier = Session::get('panier', []);
+
+        if(isset($panier[$id])){
+            $panier[$id]['quantite']++;
+            Session::put('panier', $panier);
+        }
+
+        return redirect('/panier');
+    }
+
+    public function diminuer($id)
+    {
+        $panier = Session::get('panier', []);
+
+        if(isset($panier[$id])){
+            if($panier[$id]['quantite'] > 1){
+                $panier[$id]['quantite']--;
+            } else {
+                unset($panier[$id]);
+            }
+            Session::put('panier', $panier);
+        }
+
+        return redirect('/panier');
+    }
+
+    public function vider()
+    {
+        Session::forget('panier');
+        return redirect('/panier')->with('success', 'Panier vidé !');
+    }
+
+    public function count()
+    {
+        $panier = Session::get('panier', []);
+        $count = array_sum(array_column($panier, 'quantite'));
+        return response()->json(['count' => $count]);
+    }
 }

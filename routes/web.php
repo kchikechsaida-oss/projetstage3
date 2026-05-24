@@ -1,292 +1,303 @@
-  <?php
-
-// use Illuminate\Support\Facades\Route;
-// use Illuminate\View\View;
-// use App\Http\Controllers\RegisterController;
-// use App\Http\Controllers\CommandeController;
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/footer', function () {
-//     return view('Master.footer');
-// });
-
-// Route::get('/menu', function () {
-//     return view('Master.menu');
-// });
-
-
-
-
-// Route::get('/contact', [RegisterController::class,'index']);
-// Route::post('/contact', [RegisterController::class,'store'])->name('contact.store');
-
-// // Route::post('/login', [RegisterController::class,'login'])->name('login');
-
-// Route::get('/catalogue', function () {
-//     return view('catalogue');
-// });
- 
-
-// Route::get('/Promotion',function(){
-//     return view('Promotion');
-// });
-
-
-// Route::get('/contact',function(){
-//     return view('contact');
-// });
-
-// //produit
- 
-
-// // Route::get('/catalogue', ['App\Http\Controllers\ProduitController'::class, 'index']);
-
-// // Route::get('/ajouter', ['App\Http\Controllers\ProduitController'::class, 'create']);
-// // Route::post('/ajouter', ['App\Http\Controllers\ProduitController'::class, 'store']);
-
-// // Route::get('/supprimer/{id}', ['App\Http\Controllers\ProduitController'::class, 'delete']);
-
-// // Route::get('/modifier/{id}', ['App\Http\Controllers\ProduitController'::class, 'edit']); // afficher form
-// // Route::put('/modifier/{id}', ['App\Http\Controllers\ProduitController'::class, 'update']); // update
-
-// //client
-// Route::get('/catalogueC', [App\Http\Controllers\clientController::class, 'index']);
-// Route::get('/ajouterC', [App\Http\Controllers\clientController::class, 'create']);
-// Route::post('/ajouterC', [App\Http\Controllers\clientController::class, 'store']);
-// Route::get('/supprimerC/{id}', [App\Http\Controllers\clientController::class, 'delete']);
-// Route::get('/modifierC/{id}', [App\Http\Controllers\clientController::class, 'edit']);
-// Route::put('/modifierC/{id}', [App\Http\Controllers\clientController::class, 'update']);
-
-// // Route::get('/modifier/{id}', ['App\Http\Controllers\ProduitController'::class, 'edit']); // afficher form
-// // Route::put('/modifier/{id}', ['App\Http\Controllers\ProduitController'::class, 'update']); // update
-
-// // //administrateur
-
-// // Route::get('/admin', ['App\Http\Controllers\AdminController'::class, 'index']);
-// // Route::get('/admin/produits', ['App\Http\Controllers\ProduitController'::class, 'index']);
-// // Route::get('/admin/produits/create', ['App\Http\Controllers\ProduitController'::class, 'create']);
-// // Route::post('/admin/produits/store', ['App\Http\Controllers\ProduitController'::class, 'store']);
-// // Route::get('/admin/produits/edit/{id}', ['App\Http\Controllers\ProduitController'::class, 'edit']);
-// // Route::post('/admin/produits/update/{id}', ['App\Http\Controllers\ProduitController'::class, 'update']);
-// // Route::get('/admin/produits/delete/{id}', ['App\Http\Controllers\ProduitController'::class, 'delete']);
-
-
-
-// // //panier
-// Route::get('/panier', function () {
-//     return view('panier');
-// });
-
-
-// // //categorie(filter)
-// // Route::get('/categorie', ['App\Http\Controllers\ProduitController'::class, 'index']);
-// // Route::get('/produit/{id}', ['App\Http\Controllers\ProduitController'::class, 'show']);
-
-
-
-
-
-
-
-
-
-
-// use App\Http\Controllers\ProduitController;
-// use App\Http\Controllers\clientController;
-// use App\Http\Controllers\AdminController;
-// // Produits
-// Route::get('/catalogueP', [ProduitController::class, 'index']);
-// Route::get('/produit/{id}', [ProduitController::class, 'show']);
-
-// // Ajouter / Modifier / Supprimer (public)
-// Route::get('/ajouter', [ProduitController::class, 'create']);
-// Route::post('/ajouter', [ProduitController::class, 'store']);
-// // web.php
-// Route::get('/modifier/{id}',  [ProduitController::class, 'edit']);
-// Route::put('/modifier/{id}',  [ProduitController::class, 'update']); 
-
-// Route::get('/supprimer/{id}', [ProduitController::class, 'delete']);
-
-// // // Admin
-// // Route::get('/admin', [AdminController::class, 'index']);
-// // Route::get('/admin/produits', [ProduitController::class, 'index']);
-// // Route::get('/admin/produits/create', [ProduitController::class, 'create']);
-// // Route::post('/admin/produits/store', [ProduitController::class, 'store']);
-// // Route::get('/admin/produits/edit/{id}', [ProduitController::class, 'edit']);
-// // Route::post('/admin/produits/update/{id}', [ProduitController::class, 'update']);
-// // Route::get('/admin/produits/delete/{id}', [ProduitController::class, 'delete']);
-
-
-// // Route::get('/produits/{id}/edit', [ProduitController::class, 'edit']);
-// // Route::put('/produits/{id}',      [ProduitController::class, 'update']);
-// // // Clients
-// // Route::get('/clients', [clientController::class, 'index']);
-// // Route::get('/ajouterClient', [clientController::class, 'create']);
-// // Route::post('/ajouterClient', [clientController::class, 'store']);
-// // Route::get('/supprimerClient/{id}', [clientController::class, 'delete']);
-
-// // // Panier
-// // Route::get('/panier', function () {
-// //     return view('panier');
-// // });
-
-
-
-// // Route::get('/facture/{id}', [CommandeController::class, 'facture']);
-
-
-
-//  use App\Http\Controllers\AchatContoller;
-
-// Route::get('/produits', [ProduitController::class, 'index']);
-
-// //contact
-// // Route::post('/login', [clientController::class, 'login']);
-// Route::post('/register', [clientController::class, 'register']);
-
-
-
-// //panier et compte
-// use App\Http\Controllers\PanierController;
-
-// // panier
-// //Route::get('/panier', [PanierController::class, 'index']);
-
-// // compte client
-// // Route::get('/login', [clientController::class, 'compte']);
-// Route::get('/clients/{id}/compte', [AchatContoller::class, 'compte']);
-// Route::post('/clients/{id}/acheter', [AchatContoller::class, 'acheter']);
-
-
-// // Route::get('/login', function() {
-// //     return view('Clients.CompteClient '); // ta vue de connexion
-// // });
-
-// Route::get('/CompteClient', [clientController::class, 'compte']);
-
-
-// Route::get('/login', function() {
-//     return view('contact'); // vue formulaire login
-// });
-
-// // POST login = traiter la connexion
-// Route::post('/login', [clientController::class, 'login']);
-
-
-// //recherch
-// Route::get('/search', [ProduitController::class, 'search']);
-
-
-// // produit
-// Route::get('/produit/{id}', [ProduitController::class, 'show']);
-
-// // panier
-// Route::get('/panier', [PanierController::class, 'index']);
-// Route::post('/panier/ajouter/{id}', [PanierController::class, 'ajouter']);
-// Route::get('/panier/supprimer/{id}', [PanierController::class, 'supprimer']);
-
-
-// Route::get('/livraison', [CommandeController::class, 'index']);
-// Route::post('/livraison', [CommandeController::class, 'store']); -->
-
-
-
-
+<?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\clientController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProduitController;
-use App\Http\Controllers\ClientController;
+use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\AchatContoller;
 use App\Http\Controllers\PanierController;
-use App\Http\Controllers\CommandeController;
 
-// Welcome
-Route::get('/', fn() => view('welcome'));
-Route::get('/footer', fn() => view('Master.footer'));
-Route::get('/menu', fn() => view('Master.menu'));
-// Route::get('/Promotion', fn() => view('Promotion'));
-Route::get('/catalogue', fn() => view('catalogue'));
- 
-// Contact
-Route::get('/contact', [RegisterController::class, 'index']);
-Route::post('/contact', [RegisterController::class, 'store'])->name('contact.store');
+/*
+|--------------------------------------------------------------------------
+| HOME
+|--------------------------------------------------------------------------
+*/
 
-// Login / Register
-Route::get('/login', fn() => view('contact'));
-Route::post('/login', [ClientController::class, 'login']);
-Route::post('/register', [ClientController::class, 'register']);
+Route::get('/', [ProduitController::class,'index'])
+    ->name('home');
 
-// Compte client
-Route::get('/CompteClient', [ClientController::class, 'compte']);
+/*
+|--------------------------------------------------------------------------
+| CLIENT
+|--------------------------------------------------------------------------
+*/
 
-// Clients
-Route::get('/catalogueC', [ClientController::class, 'index']);
-Route::get('/ajouterC', [ClientController::class, 'create']);
-Route::post('/ajouterC', [ClientController::class, 'store']);
-Route::get('/supprimerC/{id}', [ClientController::class, 'destroy']);
-Route::get('/modifierC/{id}', [ClientController::class, 'edit']);
-Route::put('/modifierC/{id}', [ClientController::class, 'update']);
+Route::get('/login',[clientController::class,'showLogin'])
+    ->name('login');
 
-// Produits
-Route::get('/produits', [ProduitController::class, 'index']);
-Route::get('/catalogueP', [ProduitController::class, 'index']);
-Route::get('/produit/{id}', [ProduitController::class, 'show']);
-Route::get('/ajouter', [ProduitController::class, 'create']);
-Route::post('/ajouter', [ProduitController::class, 'store']);
-Route::get('/modifier/{id}', [ProduitController::class, 'edit']);
-Route::put('/modifier/{id}', [ProduitController::class, 'update']);
-Route::get('/supprimer/{id}', [ProduitController::class, 'delete']);
-Route::get('/search', [ProduitController::class, 'search']);
+Route::post('/login',
+    [clientController::class,'login']);
 
-// Panier
-Route::get('/panier', [PanierController::class, 'index']);
-Route::post('/panier/ajouter/{id}', [PanierController::class, 'ajouter']);
-Route::get('/panier/supprimer/{id}', [PanierController::class, 'supprimer']);
+Route::get('/register',
+    [clientController::class,'showRegister'])
+    ->name('register');
 
-// Achat / Compte points
-Route::get('/clients/{id}/compte', [AchatContoller::class, 'compte']);
-Route::post('/clients/{id}/acheter', [AchatContoller::class, 'acheter']);
+Route::post('/register',
+    [clientController::class,'register']);
 
-// Livraison
-Route::get('/livraison', [CommandeController::class, 'index']);
-Route::post('/livraison', [CommandeController::class, 'store']);
+Route::post('/logout',
+    [clientController::class,'logout'])
+    ->name('logout');
 
-//admin
-use App\Http\Controllers\AdminController;
+Route::get('/CompteClient',
+    [clientController::class,'compte'])
+    ->name('client.compte');
 
-Route::get('/admin/login', [AdminController::class, 'loginForm']);
-Route::post('/admin/login', [AdminController::class, 'login']);
-Route::get('/admin/gstionP', [AdminController::class, 'dashboard']);
-Route::get('/admin/logout', [AdminController::class, 'logout']);
 
-Route::get('/admin/clients', [AdminController::class, 'clients']);
-Route::get('/admin/commandes', [AdminController::class, 'commandes']);
+/*
+|--------------------------------------------------------------------------
+| PRODUITS
+|--------------------------------------------------------------------------
+*/
 
-//facture
-Route::get('/merci/facture/{id}', [CommandeController::class, 'facture']);
-Route::get('/merci', function() {
+Route::get('/catalogue',
+    [ProduitController::class,'index'])
+    ->name('catalogue');
+
+Route::get('/produit/{id}',
+    [ProduitController::class,'show'])
+    ->name('produit.show');
+
+Route::get('/categorie',
+    [ProduitController::class,'parCategorie'])
+    ->name('categorie');
+
+Route::get('/search',
+    [ProduitController::class,'search'])
+    ->name('produit.search');
+
+Route::get('/produits',
+    [ProduitController::class,'index'])
+    ->name('produits.index');
+
+
+/*
+|--------------------------------------------------------------------------
+| PANIER
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/panier',
+    [PanierController::class,'index'])
+    ->name('panier');
+
+Route::get('/panier/ajouter/{id}',
+    [PanierController::class,'ajouter'])
+    ->name('panier.ajouter');
+
+Route::get('/panier/supprimer/{id}',
+    [PanierController::class,'supprimer'])
+    ->name('panier.supprimer');
+
+Route::get('/panier/vider',
+    [PanierController::class,'vider'])
+    ->name('panier.vider');
+
+
+/*
+|--------------------------------------------------------------------------
+| COMMANDES
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/livraison',
+    [CommandeController::class,'index'])
+    ->name('livraison');
+
+Route::post('/commande/store',
+    [CommandeController::class,'store'])
+    ->name('commande.store');
+
+Route::get('/historique',
+    [CommandeController::class,'historique'])
+    ->name('historique');
+
+Route::get('/facture/{id}',
+    [CommandeController::class,'facture'])
+    ->name('facture');
+
+
+/*
+|--------------------------------------------------------------------------
+| ACHATS
+|--------------------------------------------------------------------------
+*/
+
+// Route::post('/acheter',
+//     [AchatContoller::class,'acheter']);
+
+// Route::get('/points/{id}',
+//     [AchatContoller::class,'points']);
+
+// Route::get('/historique-achats',
+//     [AchatContoller::class,'historique']);
+
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/dashboard',
+    [AdminController::class,'dashboard'])
+    ->name('dashboard');
+
+Route::get('/admin/clients',
+    [AdminController::class,'clients']);
+
+Route::get('/admin/commandes',
+    [AdminController::class,'commandes']);
+
+Route::post('/admin/statut/{id}',
+    [AdminController::class,'updateStatut']);
+
+Route::get('/admin/promotions',
+    [AdminController::class,'promotions']);
+
+Route::post('/admin/promotion',
+    [AdminController::class,'ajouterPromotion']);
+
+Route::delete('/admin/promotion/{id}',
+    [AdminController::class,'supprimerPromotion']);
+
+Route::get('/promotion',
+    [AdminController::class,'promotionPublic'])
+    ->name('promotion');
+
+Route::get('/admin/logout',
+    [AdminController::class,'logout']);
+
+
+/*
+|--------------------------------------------------------------------------
+| CONTACT
+|--------------------------------------------------------------------------
+*/
+
+Route::view('/contact','contact')
+    ->name('contact');
+
+    Route::get('/catalogue',
+    [ProduitController::class,'index'])
+    ->name('catalogue');
+
+Route::get('/promotion',
+    [AdminController::class,'promotionPublic'])
+    ->name('promotion');
+
+    Route::post('/compte/modifier',
+    [clientController::class,'modifierProfil'])
+    ->name('client.modifierProfil');
+
+    Route::get('/merci', function() {
     return view('merci');
-});
+})->name('merci');
 
-//promotion
-Route::get('/admin/promotions', [AdminController::class, 'promotions']);
-Route::post('/admin/promotions/ajouter', [AdminController::class, 'ajouterPromotion']);
-Route::get('/admin/promotions/supprimer/{id}', [AdminController::class, 'supprimerPromotion']);
-//comentaire
-Route::post('/produit/{id}/commenter', [ProduitController::class, 'commenter']);
-//produit
-Route::get('/produits', [ProduitController::class, 'parCategorie'])->name('categorie');
+Route::get('/facture/{id}',
+    [CommandeController::class,'facture'])
+    ->name('facture');
 
-//promotion
-Route::get('/Promotion', [AdminController::class, 'promotionPublic']);
+    // قبل
+Route::get('/facture/{id}',
+    [CommandeController::class,'facture'])
+    ->name('facture');
 
-//deconnection
-Route::get('/admin/logout', [AdminController::class, 'logout']);
+// بعد
+Route::get('/facture/{id}',
+    [CommandeController::class,'facture'])
+    ->name('commande.facture');
 
- 
- 
+    Route::get('/admin/login', [AdminController::class,'showLogin']);
+Route::post('/admin/login', [AdminController::class,'login']);
 
- 
+// قبل
+Route::get('/dashboard',
+    [AdminController::class,'dashboard'])
+    ->name('dashboard');
+
+Route::get('/admin/clients',
+    [AdminController::class,'clients']);
+
+Route::get('/admin/commandes',
+    [AdminController::class,'commandes']);
+
+Route::post('/admin/statut/{id}',
+    [AdminController::class,'updateStatut']);
+
+Route::get('/admin/promotions',
+    [AdminController::class,'promotions']);
+
+Route::post('/admin/promotion',
+    [AdminController::class,'ajouterPromotion']);
+
+Route::delete('/admin/promotion/{id}',
+    [AdminController::class,'supprimerPromotion']);
+
+Route::get('/admin/logout',
+    [AdminController::class,'logout']);
+
+// بعد
+Route::get('/dashboard',
+    [AdminController::class,'dashboard'])
+    ->name('admin.dashboard');
+
+Route::get('/admin/clients',
+    [AdminController::class,'clients'])
+    ->name('admin.clients');
+
+Route::get('/admin/commandes',
+    [AdminController::class,'commandes'])
+    ->name('admin.commandes');
+
+// Route::post('/admin/statut/{id}',
+//     [AdminController::class,'updateStatut'])
+//     ->name('admin.statut');
+
+Route::get('/admin/promotions',
+    [AdminController::class,'promotions'])
+    ->name('admin.promotions');
+
+Route::post('/admin/promotion',
+    [AdminController::class,'ajouterPromotion'])
+    ->name('admin.promotion');
+
+Route::delete('/admin/promotion/{id}',
+    [AdminController::class,'supprimerPromotion'])
+    ->name('admin.promotion.delete');
+
+Route::get('/admin/logout',
+    [AdminController::class,'logout'])
+    ->name('admin.logout');
+    Route::get('/admin/achats',
+    [AdminController::class,'achats'])
+    ->name('admin.achats');
+
+    Route::post('/admin/statut/{id}',
+    [AdminController::class,'updateStatut'])
+    ->name('admin.commandes.statut');
+
+    Route::get('/admin/clients/{id}/edit',
+    [AdminController::class,'editClient'])
+    ->name('admin.clients.edit');
+
+Route::post('/admin/clients/{id}/update',
+    [AdminController::class,'updateClient'])
+    ->name('admin.clients.update');
+
+Route::get('/admin/clients/{id}/destroy',
+    [AdminController::class,'destroyClient'])
+    ->name('admin.clients.destroy');
+
+    Route::post('/admin/promotion',
+    [AdminController::class,'ajouterPromotion'])
+    ->name('admin.promotions.ajouter');
+
+Route::delete('/admin/promotion/{id}',
+    [AdminController::class,'supprimerPromotion'])
+    ->name('admin.promotions.delete');
+
+    Route::get('/admin/promotion/{id}/supprimer',
+    [AdminController::class,'supprimerPromotion'])
+    ->name('admin.promotions.supprimer');
