@@ -28,3 +28,4 @@ Thumbs.db
 /public/build
 /storage/*.key
 /.env
+public/Downloads/
