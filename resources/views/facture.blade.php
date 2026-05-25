@@ -32,7 +32,7 @@
 <body>
 
 <div class="header">
-    <h1>🌿 Andalocy Parfums</h1>
+    <h1> Andalocy Parfums</h1>
     <p>La nature au cœur de votre beauté</p>
     <p>contact@andalocyparfums.com | +212 06 62 29 03 70</p>
 </div>
